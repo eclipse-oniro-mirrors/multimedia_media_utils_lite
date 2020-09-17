@@ -72,7 +72,7 @@ const std::string KEY_TIME_US = "timeUs";
  * @since 1.0
  * @version 1.0
  */
-typedef enum {
+enum AudioSourceType {
     /** Invalid audio source */
     AUDIO_SOURCE_INVALID = -1,
     /** Default audio source */
@@ -105,7 +105,7 @@ typedef enum {
     AUDIO_HOTWORD = 1999,
     /** Extended remote submix */
     AUDIO_REMOTE_SUBMIX_EXTEND = 10007,
-} AudioSourceType;
+};
 
 /**
  * @brief Defines the audio Device Descriptor.
@@ -113,14 +113,14 @@ typedef enum {
  * @since 1.0
  * @version 1.0
  */
-typedef struct {
+struct AudioDeviceDesc {
     /** Device name */
     std::string deviceName;
     /** Type of the audio input source */
     AudioSourceType inputSourceType;
     /** Bits 31-24: reserved bits; bits 23-16: mode ID; bits 15-8: device ID; bits 7-0: channel ID */
     uint32_t deviceId;
-} AudioDeviceDesc;
+};
 
 /**
  * @brief Enumerates audio stream types.
@@ -128,7 +128,7 @@ typedef struct {
  * @since 1.0
  * @version 1.0
  */
-typedef enum {
+enum AudioStreamType {
     /** Default audio stream type */
     TYPE_DEFAULT = -1,
     /** Media */
@@ -155,7 +155,7 @@ typedef enum {
     TYPE_TTS = 10,
     /** Accessibility */
     TYPE_ACCESSIBILITY = 11,
-} AudioStreamType;
+};
 
 /**
  * @brief Enumerates video codec formats.
@@ -163,14 +163,14 @@ typedef enum {
  * @since 1.0
  * @version 1.0
  */
-typedef enum {
+enum VideoCodecFormat {
     /** Default format */
     VIDEO_DEFAULT = 0,
     /** H.264 */
     H264 = 2,
     /** High Efficiency Video Coding (HEVC) */
     HEVC = 5,
-} VideoCodecFormat;
+};
 
 /**
  * @brief Enumerates audio codec formats.
@@ -178,7 +178,7 @@ typedef enum {
  * @since 1.0
  * @version 1.0
  */
-typedef enum {
+enum AudioCodecFormat {
     /** Default format */
     AUDIO_DEFAULT = 0,
     /** Advanced Audio Coding Low Complexity (AAC-LC) */
@@ -193,7 +193,7 @@ typedef enum {
     AAC_ELD     =   5,
     /** Invalid value */
     FORMAT_BUTT,
-} AudioCodecFormat;
+};
 
 /**
  * @brief Enumerates audio bit widths.
@@ -201,7 +201,7 @@ typedef enum {
  * @since 1.0
  * @version 1.0
  */
-typedef enum {
+enum AudioBitWidth {
     /** 8-bit width */
     BIT_WIDTH_8   = 8,
     /** 16-bit width */
@@ -210,5 +210,5 @@ typedef enum {
     BIT_WIDTH_24  = 24,
     /** Invalid value */
     BIT_WIDTH_BUTT,
-} AudioBitWidth;
+};
 #endif  // MEDIA_INFO_H
