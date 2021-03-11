@@ -14,20 +14,20 @@ import("//build/lite/config/component/lite_component.gni")
 import("//build/lite/ndk/ndk.gni")
 
 shared_library("media_common") {
-    sources = [
-        "src/format.cpp",
-        "src/source.cpp",
-    ]
-    cflags = ["-fPIC"]
-    cflags += ["-Wall"]
-    cflags_cc = cflags
-    include_dirs = [
-        "include",
-        "//third_party/bounds_checking_function/include",
-    ]
-    public_deps = [
-        "//third_party/bounds_checking_function:libsec_shared",
-        "$ohos_vendor_adapter_dir/../../hardware:hardware_media_sdk",
-        "$ohos_vendor_adapter_dir/../../middleware:middleware_source_sdk",
-    ]
+  sources = [
+    "src/format.cpp",
+    "src/source.cpp",
+  ]
+  cflags = [ "-fPIC" ]
+  cflags += [ "-Wall" ]
+  cflags_cc = cflags
+  include_dirs = [
+    "include",
+    "//third_party/bounds_checking_function/include",
+  ]
+  public_deps = [
+    "$ohos_vendor_adapter_dir:hardware_media_sdk",
+    "$ohos_vendor_adapter_dir/../modules/middleware:middleware_source_sdk",
+    "//third_party/bounds_checking_function:libsec_shared",
+  ]
 }

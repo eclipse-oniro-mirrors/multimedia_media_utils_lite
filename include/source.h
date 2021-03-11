@@ -176,17 +176,6 @@ public:
      */
     explicit Source(const std::string& uri);
 
-    /**
-     * @brief A constructor used to create a {@link Source} instance based on a specified URI and header.
-     *
-     * If the HTTP URL header does not carry valid information for network playback, this function is equivalent to
-     * {@link Source(const std::string& uri)}.
-     *
-     * @param uri Indicates the media source URI.
-     * @param header Indicates the header.
-     * @since 1.0
-     * @version 1.0
-     */
     Source(const std::string &uri, const std::map<std::string, std::string> &header);
 
     /**
@@ -225,15 +214,6 @@ public:
      */
     const std::string &GetSourceUri() const;
 
-    /**
-     * @brief Obtains the HTTP header for the media source.
-     *
-     * This function is called only when the {@link SourceType} is {@link SOURCE_TYPE_URI}.
-     *
-     * @return Returns the media source header.
-     * @since 1.0
-     * @version 1.0
-     */
     const std::map<std::string, std::string> &GetSourceHeader() const;
 
     /**
