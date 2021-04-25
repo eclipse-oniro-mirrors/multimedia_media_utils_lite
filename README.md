@@ -124,7 +124,7 @@ The following table lists the error codes.
 
 ```
 foundation/multimedia/utils/lite
-├── include    # Header file of the data types and media formats
+├── interfaces    # Header file of the data types and media formats
 └── hals       # HAL adaptation APIs
 └── src        # Implementation of the data types and media formats
 ```
