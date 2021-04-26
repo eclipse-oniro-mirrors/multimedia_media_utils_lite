@@ -124,7 +124,7 @@
 
 ```
 foundation/multimedia/utils/lite
-├── include    # 数据类型和媒体格式头文件
+├── interfaces    # 数据类型和媒体格式头文件
 └── hals       # HAL层适配接口
 └── src        # 数据类型和媒体格式实现
 ```

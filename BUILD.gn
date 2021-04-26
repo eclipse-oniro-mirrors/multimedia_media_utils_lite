@@ -22,7 +22,7 @@ shared_library("media_common") {
   cflags += [ "-Wall" ]
   cflags_cc = cflags
   include_dirs = [
-    "include",
+    "interfaces/kits",
     "//third_party/bounds_checking_function/include",
   ]
   public_deps = [
