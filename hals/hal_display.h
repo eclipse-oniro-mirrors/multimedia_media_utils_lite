@@ -52,11 +52,17 @@ int32_t HalPlayerVoInit(HalVideoOutputHdl *handle);
 
 int32_t HalPlayerSysInit(void);
 
+int32_t HalPlayerSysDeInit(void);
+
 void HalPlayerVoDeinit(HalVideoOutputHdl handle);
 
 int32_t HalCreateCameraVideoOutput(uint32_t deviceId, HalVideoOutputAttr *attr);
 
 int32_t HalDestroyCameraVideoOutput();
+
+int32_t VoLayerInit(uint32_t devId);
+
+void VoLayerDeInit(uint32_t devId);
 #ifdef __cplusplus
 #if __cplusplus
 }
