@@ -49,5 +49,6 @@
 #define MEDIA_INIT_FAIL (-2)
 #define MEDIA_ERR (-3)
 #define MEDIA_PERMISSION_DENIED (-4)
+#define MEDIA_IPC_FAILED (-5)
 
 #endif // OHOS_MEDIA_LOG_H

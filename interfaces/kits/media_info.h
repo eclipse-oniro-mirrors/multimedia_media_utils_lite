@@ -60,11 +60,6 @@ const int32_t COLOR_FORMAT_ARGB8888_32BIT  = 16;
 /** Indicates the YUV420SP color format. */
 const int32_t COLOR_FORMAT_YUV420SP        = 21;
 
-/** Indicates that the current frame is an Instantaneous Decoder Refresh (IDR) frame. */
-const std::string KEY_IS_SYNC_FRAME = "is-sync-frame";
-
-/** Indicates the frame timestamp. */
-const std::string KEY_TIME_US = "timeUs";
 
 /**
  * @brief Enumerates audio source types.
