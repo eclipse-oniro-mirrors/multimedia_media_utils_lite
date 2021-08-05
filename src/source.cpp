@@ -14,6 +14,7 @@
  */
 
 #include "source.h"
+#include "media_log.h"
 
 namespace OHOS {
 namespace Media {
@@ -58,5 +59,64 @@ const Format &Source::GetSourceStreamFormat() const
 {
     return format_;
 }
+
+StreamSource::StreamSource()
+    : surface_(nullptr),
+      curBuffer_(nullptr)
+{}
+
+StreamSource::~StreamSource()
+{
+    MEDIA_ERR_LOG("[%s,%d] in", __func__, __LINE__);
+    if (surface_ != nullptr) {
+        delete surface_;
+    }
+}
+
+void StreamSource::SetSurface(Surface* surface)
+{
+    surface_ = surface;
+}
+
+Surface* StreamSource::GetSurface(void)
+{
+    return surface_;
+}
+
+
+uint8_t* StreamSource::GetSharedBuffer(size_t& size)
+{
+    if ((surface_ == nullptr) || (curBuffer_ != nullptr)){
+        return nullptr;
+    }
+    SurfaceBuffer* surfaceBuffer = surface_->RequestBuffer();
+    if (surfaceBuffer != nullptr) {
+        curBuffer_ = surfaceBuffer;
+        size = surface_->GetSize();
+        return static_cast<uint8_t*>(surfaceBuffer->GetVirAddr());
+    } else {
+        return nullptr;
+    }
+}
+
+int StreamSource::QueueSharedBuffer(void* buffer, size_t size)
+{
+    if ((surface_ == nullptr) || (buffer == nullptr) || (curBuffer_ == nullptr)){
+        return -1;
+    }
+
+    if(buffer != curBuffer_->GetVirAddr()) {
+        return -1;
+    }
+    curBuffer_->SetInt32(0, size);
+    if (surface_->FlushBuffer(curBuffer_) != 0) {
+        surface_->CancelBuffer(curBuffer_);
+        curBuffer_ = nullptr;
+        return -1;
+    }
+    curBuffer_ = nullptr;
+    return 0;
+}
+
 }  // namespace Media
 }  // namespace OHOS
