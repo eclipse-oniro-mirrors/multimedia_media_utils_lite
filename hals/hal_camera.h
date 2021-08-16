@@ -68,13 +68,13 @@ typedef enum {
     STREAM_TYPE_BUTT
 } StreamType;
 
-typedef struct {//动态能力 or 静态能力
+typedef struct {
     StreamType type;
     ImageFormat format;
-    int32_t width; //静态
-    int32_t height; //静态
-    uint16_t fps; //动态
-    RectInfo crop;  //动态
+    int32_t width;
+    int32_t height;
+    uint16_t fps;
+    RectInfo crop;
     uint8_t invertMode;
 } StreamAttr;
 
@@ -89,14 +89,14 @@ typedef struct {
     int32_t width;        /**< the width of memory */
     int32_t height;       /**< the heigh of memory */
     int32_t stride0;       /**< the stride of memory */
-    int32_t stride1;      //添加的变量
+    int32_t stride1;      
     int32_t size;         /* < size of memory */
     int32_t fd;           /**< buffer fd, -1 if not supported */
     uint32_t flag;         /**< flag */
     int64_t usage;        /**< the usage of memory */
     uint64_t phyAddr;      /**< Physical address */
     uint64_t pts;          /**< pts */
-    uint64_t timeStamp;    //添加的变量
+    uint64_t timeStamp;    
     void *virAddr;    /**< Virtual address of memory  */
 } HalBuffer;
 
@@ -119,7 +119,7 @@ typedef struct Format {
 typedef struct {
     CapDescType type;
     char description[CAMERA_DESC_MAX_LEN]; /* like YUYV 4:2:2 (YUYV) */
-    ImageFormat format;  //只支持YUV
+    ImageFormat format; // 只支持YUV
     union {
         FormatRange range;
         FormatEnum formatEnum;
