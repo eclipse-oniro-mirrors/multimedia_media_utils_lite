@@ -89,14 +89,14 @@ typedef struct {
     int32_t width;        /**< the width of memory */
     int32_t height;       /**< the heigh of memory */
     int32_t stride0;       /**< the stride of memory */
-    int32_t stride1;      
+    int32_t stride1;
     int32_t size;         /* < size of memory */
     int32_t fd;           /**< buffer fd, -1 if not supported */
     uint32_t flag;         /**< flag */
     int64_t usage;        /**< the usage of memory */
     uint64_t phyAddr;      /**< Physical address */
     uint64_t pts;          /**< pts */
-    uint64_t timeStamp;    
+    uint64_t timeStamp;
     void *virAddr;    /**< Virtual address of memory  */
 } HalBuffer;
 
