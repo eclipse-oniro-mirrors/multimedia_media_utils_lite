@@ -10,8 +10,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//build/lite/config/component/lite_component.gni")
-import("//build/lite/ndk/ndk.gni")
 
 shared_library("media_common") {
   sources = [
@@ -26,9 +24,9 @@ shared_library("media_common") {
     "//third_party/bounds_checking_function/include",
   ]
   public_deps = [
-    "$ohos_vendor_adapter_dir:hardware_media_sdk",
+    "$ohos_board_adapter_dir:hardware_media_sdk",
+    "$ohos_board_adapter_dir/../modules/middleware:middleware_source_sdk",
     "//foundation/graphic/surface:lite_surface",
-    "$ohos_vendor_adapter_dir/../modules/middleware:middleware_source_sdk",
     "//third_party/bounds_checking_function:libsec_shared",
   ]
 }
