@@ -15,6 +15,7 @@
 
 #include "format.h"
 #include <cstdio>
+#include "media_log.h"
 
 namespace OHOS {
 namespace Media {
@@ -81,7 +82,7 @@ FormatData::~FormatData()
 bool FormatData::SetValue(int32_t val)
 {
     if (type_ != FORMAT_TYPE_INT32) {
-        printf("FormatData set int32 value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData set int32 value error, current type is %u", type_);
         return false;
     }
     val_.int32Val = val;
@@ -91,7 +92,7 @@ bool FormatData::SetValue(int32_t val)
 bool FormatData::SetValue(int64_t val)
 {
     if (type_ != FORMAT_TYPE_INT64) {
-        printf("FormatData set int64 value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData set int64 value error, current type is %u", type_);
         return false;
     }
     val_.int64Val = val;
@@ -101,7 +102,7 @@ bool FormatData::SetValue(int64_t val)
 bool FormatData::SetValue(float val)
 {
     if (type_ != FORMAT_TYPE_FLOAT) {
-        printf("FormatData set float value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData set float value error, current type is %u", type_);
         return false;
     }
     val_.floatVal = val;
@@ -111,7 +112,7 @@ bool FormatData::SetValue(float val)
 bool FormatData::SetValue(double val)
 {
     if (type_ != FORMAT_TYPE_DOUBLE) {
-        printf("FormatData set double value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData set double value error, current type is %u", type_);
         return false;
     }
     val_.doubleVal = val;
@@ -121,13 +122,13 @@ bool FormatData::SetValue(double val)
 bool FormatData::SetValue(const std::string &val)
 {
     if (type_ != FORMAT_TYPE_STRING) {
-        printf("FormatData set string value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData set string value error, current type is %u", type_);
         return false;
     }
     val_.stringVal = new (std::nothrow) std::string();
     if (val_.stringVal == nullptr) {
         type_ = FORMAT_TYPE_NONE;
-        printf("FormatData set string value error, new string failed");
+        MEDIA_ERR_LOG("FormatData set string value error, new string failed");
         return false;
     }
     *(val_.stringVal) = val;
@@ -137,7 +138,7 @@ bool FormatData::SetValue(const std::string &val)
 bool FormatData::GetInt32Value(int32_t &val) const
 {
     if (type_ != FORMAT_TYPE_INT32) {
-        printf("FormatData get int32 value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData get int32 value error, current type is %u", type_);
         return false;
     }
     val = val_.int32Val;
@@ -147,7 +148,7 @@ bool FormatData::GetInt32Value(int32_t &val) const
 bool FormatData::GetInt64Value(int64_t &val) const
 {
     if (type_ != FORMAT_TYPE_INT64) {
-        printf("FormatData get int64 value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData get int64 value error, current type is %u", type_);
         return false;
     }
     val = val_.int64Val;
@@ -157,7 +158,7 @@ bool FormatData::GetInt64Value(int64_t &val) const
 bool FormatData::GetFloatValue(float &val) const
 {
     if (type_ != FORMAT_TYPE_FLOAT) {
-        printf("FormatData get float value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData get float value error, current type is %u", type_);
         return false;
     }
     val = val_.floatVal;
@@ -167,7 +168,7 @@ bool FormatData::GetFloatValue(float &val) const
 bool FormatData::GetDoubleValue(double &val) const
 {
     if (type_ != FORMAT_TYPE_DOUBLE) {
-        printf("FormatData get double value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData get double value error, current type is %u", type_);
         return false;
     }
     val = val_.doubleVal;
@@ -177,11 +178,11 @@ bool FormatData::GetDoubleValue(double &val) const
 bool FormatData::GetStringValue(std::string &val) const
 {
     if (type_ != FORMAT_TYPE_STRING) {
-        printf("FormatData get string value error, current type is %u", type_);
+        MEDIA_ERR_LOG("FormatData get string value error, current type is %u", type_);
         return false;
     }
     if (val_.stringVal == nullptr) {
-        printf("FormatData get string value error, stringVal is null");
+        MEDIA_ERR_LOG("FormatData get string value error, stringVal is null");
         return false;
     }
     val = *(val_.stringVal);
@@ -238,11 +239,11 @@ bool Format::SetFormatCommon(const std::string &key, const T &value, FormatDataT
     }
     FormatData *data = new (std::nothrow) FormatData(type);
     if (data == nullptr) {
-        printf("Format::SetFormatCommon new FormatData failed");
+        MEDIA_ERR_LOG("Format::SetFormatCommon new FormatData failed");
         return false;
     }
     if (!data->SetValue(value)) {
-        printf("Format::SetFormatCommon failed. Key: %s", key.c_str());
+        MEDIA_ERR_LOG("Format::SetFormatCommon failed. Key: %s", key.c_str());
         delete data;
         return false;
     }
@@ -254,7 +255,7 @@ bool Format::GetStringValue(const std::string &key, std::string &value) const
 {
     auto iter = formatMap_.find(key);
     if (iter == formatMap_.end() || iter->second == nullptr) {
-        printf("Format::GetFormat failed. Key: %s", key.c_str());
+        MEDIA_DEBUG_LOG("Format::GetFormat failed. Key: %s", key.c_str());
         return false;
     }
 
@@ -265,7 +266,7 @@ bool Format::GetIntValue(const std::string &key, int32_t &value) const
 {
     auto iter = formatMap_.find(key);
     if ((iter == formatMap_.end()) || (iter->second == nullptr)) {
-        printf("Format::GetFormat failed. Key: %s", key.c_str());
+        MEDIA_DEBUG_LOG("Format::GetFormat failed. Key: %s", key.c_str());
         return false;
     }
 
@@ -276,7 +277,7 @@ bool Format::GetLongValue(const std::string &key, int64_t &value) const
 {
     auto iter = formatMap_.find(key);
     if ((iter == formatMap_.end()) || (iter->second == nullptr)) {
-        printf("Format::GetFormat failed. Key: %s", key.c_str());
+        MEDIA_DEBUG_LOG("Format::GetFormat failed. Key: %s", key.c_str());
         return false;
     }
 
@@ -287,7 +288,7 @@ bool Format::GetFloatValue(const std::string &key, float &value) const
 {
     auto iter = formatMap_.find(key);
     if ((iter == formatMap_.end()) || (iter->second == nullptr)) {
-        printf("Format::GetFormat failed. Key: %s", key.c_str());
+        MEDIA_DEBUG_LOG("Format::GetFormat failed. Key: %s", key.c_str());
         return false;
     }
 
@@ -298,7 +299,7 @@ bool Format::GetDoubleValue(const std::string &key, double &value) const
 {
     auto iter = formatMap_.find(key);
     if ((iter == formatMap_.end()) || (iter->second == nullptr)) {
-        printf("Format::GetFormat failed. Key: %s", key.c_str());
+        MEDIA_DEBUG_LOG("Format::GetFormat failed. Key: %s", key.c_str());
         return false;
     }
 
@@ -312,13 +313,13 @@ const std::map<std::string, FormatData *> &Format::GetFormatMap() const
 
 bool Format::CopyFrom(const Format &format)
 {
-    printf("CopyFrom begin");
+    MEDIA_INFO_LOG("CopyFrom begin");
     std::map<std::string, FormatData *> formatMap = format.GetFormatMap();
     for (auto &iter : formatMap) {
         std::string key = iter.first;
         FormatData *formatData = iter.second;
         if (formatData == nullptr) {
-            printf("CopyFrom FormatData is null, key is %s", key.c_str());
+            MEDIA_ERR_LOG("CopyFrom FormatData is null, key is %s", key.c_str());
             continue;
         }
         FormatDataType type = formatData->GetType();
@@ -344,7 +345,7 @@ bool Format::CopyFrom(const Format &format)
                 break;
             }
             default: {
-                printf("CopyFrom unknown type, type is %d", type);
+                MEDIA_ERR_LOG("CopyFrom unknown type, type is %d", type);
                 break;
             }
         }

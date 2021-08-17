@@ -175,17 +175,25 @@ typedef enum {
  */
 typedef enum {
     /** Default format */
-    AUDIO_DEFAULT = 0,
+    AUDIO_DEFAULT    = 0,
+    /** PCM */
+    PCM              = 1,
     /** Advanced Audio Coding Low Complexity (AAC-LC) */
-    AAC_LC      =   1,
+    AAC_LC           = 2,
     /** High-Efficiency Advanced Audio Coding (AAC-HE), previously known as AAC+ or aacPlus v1 */
-    AAC_HE_V1   =   2,
+    AAC_HE_V1        = 3,
     /** AAC++ or aacPlus v2 */
-    AAC_HE_V2   =   3,
+    AAC_HE_V2        = 4,
     /** Advanced Audio Coding Low Delay (AAC-LD) */
-    AAC_LD      =   4,
+    AAC_LD           = 5,
     /** Advanced Audio Coding Enhanced Low Delay (AAC-ELD) */
-    AAC_ELD     =   5,
+    AAC_ELD          = 6,
+    /** G711 a-law*/
+    G711A            = 7,
+    /** G711 u-law */
+    G711U            = 8,
+    /** G726 */
+    G726             = 9,
     /** Invalid value */
     FORMAT_BUTT,
 } AudioCodecFormat;
@@ -203,6 +211,8 @@ typedef enum {
     BIT_WIDTH_16  = 16,
     /** 24-bit width */
     BIT_WIDTH_24  = 24,
+    /** 32-bit width */
+    BIT_WIDTH_32  = 32,
     /** Invalid value */
     BIT_WIDTH_BUTT,
 } AudioBitWidth;
