@@ -22,6 +22,7 @@ namespace Media {
 const char *CODEC_MIME = "mime";
 const char *MIME_AUDIO_AAC = "audio/mp4a-latm";
 const char *MIME_AUDIO_RAW = "audio/raw";
+const char *PAUSE_AFTER_PLAY = "pause_after_play";
 
 #define SET_INT32_FORMAT(type, func)   \
 do { \
