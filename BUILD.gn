@@ -24,8 +24,8 @@ shared_library("media_common") {
     "//third_party/bounds_checking_function/include",
   ]
   public_deps = [
-    "$ohos_board_adapter_dir:hardware_media_sdk",
-    "$ohos_board_adapter_dir/../modules/middleware:middleware_source_sdk",
+    "$ohos_board_adapter_dir/media:hardware_media_sdk",
+    "$ohos_board_adapter_dir/middleware:middleware_source_sdk",
     "//foundation/graphic/surface:lite_surface",
     "//third_party/bounds_checking_function:libsec_shared",
   ]
