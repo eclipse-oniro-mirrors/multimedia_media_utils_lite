@@ -61,18 +61,23 @@ const Format &Source::GetSourceStreamFormat() const
 }
 
 StreamSource::StreamSource()
+#ifndef SURFACE_DISABLED
     : surface_(nullptr),
       curBuffer_(nullptr)
+#endif
 {}
 
 StreamSource::~StreamSource()
 {
     MEDIA_ERR_LOG("[%s,%d] in", __func__, __LINE__);
+#ifndef SURFACE_DISABLED
     if (surface_ != nullptr) {
         delete surface_;
     }
+#endif
 }
 
+#ifndef SURFACE_DISABLED
 void StreamSource::SetSurface(Surface* surface)
 {
     surface_ = surface;
@@ -82,10 +87,11 @@ Surface* StreamSource::GetSurface(void)
 {
     return surface_;
 }
-
+#endif
 
 uint8_t* StreamSource::GetSharedBuffer(size_t& size)
 {
+#ifndef SURFACE_DISABLED
     if ((surface_ == nullptr) || (curBuffer_ != nullptr)){
         return nullptr;
     }
@@ -97,10 +103,14 @@ uint8_t* StreamSource::GetSharedBuffer(size_t& size)
     } else {
         return nullptr;
     }
+#else
+  return nullptr;
+#endif
 }
 
 int StreamSource::QueueSharedBuffer(void* buffer, size_t size)
 {
+#ifndef SURFACE_DISABLED
     if ((surface_ == nullptr) || (buffer == nullptr) || (curBuffer_ == nullptr)){
         return -1;
     }
@@ -115,6 +125,7 @@ int StreamSource::QueueSharedBuffer(void* buffer, size_t size)
         return -1;
     }
     curBuffer_ = nullptr;
+#endif
     return 0;
 }
 

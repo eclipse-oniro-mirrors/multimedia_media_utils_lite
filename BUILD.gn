@@ -11,22 +11,41 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-shared_library("media_common") {
+import("//build/lite/config/component/lite_component.gni")
+
+lite_library("media_common") {
+  if (ohos_kernel_type == "liteos_m") {
+    target_type = "static_library"
+  } else {
+    target_type = "shared_library"
+  }
   sources = [
     "src/format.cpp",
     "src/source.cpp",
   ]
-  cflags = [ "-fPIC" ]
-  cflags += [ "-Wall" ]
-  cflags_cc = cflags
   include_dirs = [
     "interfaces/kits",
-    "//third_party/bounds_checking_function/include",
+    "//base/hiviewdfx/hilog_lite/interfaces/native/innerkits/hilog",
   ]
-  public_deps = [
-    "$ohos_board_adapter_dir/media:hardware_media_sdk",
-    "$ohos_board_adapter_dir/middleware:middleware_source_sdk",
-    "//foundation/graphic/surface:lite_surface",
-    "//third_party/bounds_checking_function:libsec_shared",
-  ]
+  if (ohos_kernel_type == "liteos_m") {
+    public_deps = [ "//third_party/bounds_checking_function:libsec_static" ]
+  } else {
+    public_deps = [ "//third_party/bounds_checking_function:libsec_shared" ]
+  }
+
+  if (ohos_kernel_type == "liteos_m") {
+    public_deps +=
+        [ "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_static" ]
+    public_configs = [ ":media_common_public_config" ]
+  } else {
+    public_deps += [
+      "$ohos_board_adapter_dir/media:hardware_media_sdk",
+      "$ohos_board_adapter_dir/middleware:middleware_source_sdk",
+      "//foundation/graphic/surface:lite_surface",
+    ]
+  }
+}
+
+config("media_common_public_config") {
+  defines = [ "SURFACE_DISABLED" ]
 }

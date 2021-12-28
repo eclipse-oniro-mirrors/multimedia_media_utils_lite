@@ -40,7 +40,9 @@
 #include <map>
 #include <string>
 #include "format.h"
+#ifndef SURFACE_DISABLED
 #include "surface.h"
+#endif
 
 using std::shared_ptr;
 
@@ -144,9 +146,11 @@ public:
 
     virtual ~StreamSource(void);
 
+#ifndef SURFACE_DISABLED
     void SetSurface(Surface* surface);
 
     Surface* GetSurface(void);
+#endif
 
     uint8_t* GetSharedBuffer(size_t& size);
 
@@ -173,8 +177,10 @@ public:
 
 private:
 
+#ifndef SURFACE_DISABLED
     Surface* surface_;
     SurfaceBuffer* curBuffer_;
+#endif
 };
 
 /**
