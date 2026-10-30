@@ -5,6 +5,7 @@
   - [Directory Structure<a name="section8685144625320"></a>](#directory-structure)
   - [Usage<a name="section1648194512427"></a>](#usage)
   - [Constraints<a name="section161941989596"></a>](#constraints)
+  - [Changes in This Release<a name="section_changes_en"></a>](#changes-in-this-release)
   - [Repositories Involved<a name="section105062051111614"></a>](#repositories-involved)
 
 ## Introduction<a name="section11660541593"></a>
@@ -144,6 +145,56 @@ hb build media_service
 ## Constraints<a name="section161941989596"></a>
 
 C++ 11 or later
+
+# Changes in This Release<a name="section_changes_en"></a>
+
+This repository is adapted for the HiSpark AiFly (Hi3403V100) development board. For clarity, the changes are described in two parts: **Added Features** and **Enhanced Existing Features**.
+
+## Added Features
+
+1. Added the camera HAL manager interface
+    -   `hals/hal_camera.h` adds the `HalCameraManager` function-pointer table with `GetHalCameraFuncs`/`GetHalDistributedCameraFuncs` under `MEDIA_INTERFACE_V1_0`: the camera ID changes from a number to a string, and distributed camera management APIs are added (`HalCameraAddCameraDevice`/`HalCameraRemoveCameraDevice`/`HalCameraAcquireBuffer`/`HalCameraShutterBuffer`/`HalCameraOnSettingsResult`/`HalCameraNotify`, etc.), while the original APIs are kept for the legacy path.
+
+2. Added the audio device info model
+    -   `interfaces/kits/media_info.h` adds `AudioSystemDeviceType` (local/virtual microphones and speakers), `DeviceConnectStatus` and `AudioDeviceInfo` (with `dhId`, device name, device type and connection status), providing data structures for audio device management and device-change callbacks.
+
+3. Added the media log module
+    -   Added `src/media_log.cpp`: provides `MediaLogPrintf`/`MediaDfxLogPrintf`/`SetMediaLogLevel`/`GetMediaLogLevel`, with log-level gating (atomic variable, ERROR level by default under NDEBUG), hilog output under `HI_LOG_ENABLE`, and the `DECORATOR_LOG` macro wrapper carrying the function name and line number.
+
+4. Added the DFX statistics utility
+    -   Added `interfaces/kits/media_utils.h` and `src/media_utils.cpp`: under `ENABLE_DFX`, provides audio receive-time recording (`MediaRecordAudioRecvTime`) and sync time-difference printing (`MediaPrintSyncTimeDiffUs`), with clock retrieval and multiplication overflow protection.
+
+5. Added build arguments and configuration items
+    -   `config.gni` adds the `enable_distributed_hardware`, `enable_distributed_dfx` and `drivers_peripheral_display_4K_support` switches.
+
+6. Added the Format key and error code
+    -   `interfaces/kits/format.h` adds the `LAYER_PRIORITY` key (for the player layer priority setting); `interfaces/kits/media_errors.h` adds the `ERR_AUDIO_READ_DATA_TIME_OUT` error code.
+
+## Enhanced Existing Features
+
+1. The existing video stream attribute structure is enhanced
+    -   Original functionality: `StreamAttr` contained only width, height and frame rate information.
+    -   Enhancement: the `displayWidth`/`displayHeight` fields are added under `MEDIA_INTERFACE_V1_0`.
+
+2. The existing camera detect callback signatures are enhanced
+    -   Original functionality: `CameraDetectCb`/`CameraResultCb` used `uint32_t` camera IDs.
+    -   Enhancement: under `MEDIA_INTERFACE_V1_0`, string camera IDs (`const char *`) are used, consistent with the camera HAL manager interface.
+
+3. The existing position info structure is enhanced
+    -   Original functionality: `PosInfo` contained only the x and y coordinates.
+    -   Enhancement: the width and height fields (w/h) are added under `MEDIA_INTERFACE_V1_0`.
+
+4. The existing log macros are enhanced
+    -   Original functionality: the `MEDIA_*_LOG` macros chose whether to carry the function name, file name and line number based on `OHOS_DEBUG`.
+    -   Enhancement: they uniformly go through `DECORATOR_LOG` (function name + line number); level filtering and the output backend are handled inside `media_log.cpp`, making the macro definitions simpler.
+
+5. The existing build configuration is enhanced
+    -   Original functionality: `media_common` compiled only `format.cpp` and `source.cpp`.
+    -   Enhancement: `media_log.cpp` and `media_utils.cpp` are added; the `HI_LOG_ENABLE`/`ENABLE_DFX` macros are defined; the `hilog_shared` dependency is added for non-liteos_m kernels.
+
+6. The existing open-source compliance configuration is enhanced
+    -   Original functionality: `OAT.xml` configures open-source compliance scanning.
+    -   Enhancement: a policyitem is added, registering the HiSilicon copyright.
 
 ## Repositories Involved<a name="section105062051111614"></a>
 

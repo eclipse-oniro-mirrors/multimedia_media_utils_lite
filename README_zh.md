@@ -5,6 +5,7 @@
   - [目录<a name="section8685144625320"></a>](#目录)
   - [使用说明<a name="section1648194512427"></a>](#使用说明)
   - [约束<a name="section161941989596"></a>](#约束)
+  - [本次改动<a name="section_changes_zh"></a>](#本次改动)
   - [相关仓<a name="section105062051111614"></a>](#相关仓)
 
 ## 简介<a name="section11660541593"></a>
@@ -144,6 +145,56 @@ hb build media_service
 ## 约束<a name="section161941989596"></a>
 
 C++11版本或以上
+
+# 本次改动<a name="section_changes_zh"></a>
+
+本仓针对 HiSpark AiFly（Hi3403V100）开发板进行功能适配。为便于区分，以下按“新增能力”与“原有功能增强”两部分说明。
+
+## 新增能力
+
+1. 新增相机 HAL 管理器接口
+    -   `hals/hal_camera.h` 在 `MEDIA_INTERFACE_V1_0` 下新增 `HalCameraManager` 函数指针表及 `GetHalCameraFuncs`/`GetHalDistributedCameraFuncs` 获取接口：相机 ID 由数值改为字符串，并新增分布式相机管理接口（`HalCameraAddCameraDevice`/`HalCameraRemoveCameraDevice`/`HalCameraAcquireBuffer`/`HalCameraShutterBuffer`/`HalCameraOnSettingsResult`/`HalCameraNotify` 等），同时保留原接口供旧版本使用。
+
+2. 新增音频设备信息模型
+    -   `interfaces/kits/media_info.h` 新增 `AudioSystemDeviceType`（本地/虚拟麦克风与扬声器）、`DeviceConnectStatus` 与 `AudioDeviceInfo`（含 `dhId`、设备名、设备类型、连接状态），为音频设备管理与设备变化回调提供数据结构。
+
+3. 新增媒体日志模块
+    -   新增 `src/media_log.cpp`：提供 `MediaLogPrintf`/`MediaDfxLogPrintf`/`SetMediaLogLevel`/`GetMediaLogLevel`，支持日志级别门控（原子变量控制，NDEBUG 下默认 ERROR 级），`HI_LOG_ENABLE` 下对接 hilog 输出，并提供带函数名与行号的 `DECORATOR_LOG` 宏封装。
+
+4. 新增 DFX 统计工具
+    -   新增 `interfaces/kits/media_utils.h` 与 `src/media_utils.cpp`：`ENABLE_DFX` 下提供音频接收时间记录（`MediaRecordAudioRecvTime`）与同步时差打印（`MediaPrintSyncTimeDiffUs`），含时钟获取与乘法溢出保护。
+
+5. 新增构建参数与配置项
+    -   `config.gni` 新增 `enable_distributed_hardware`、`enable_distributed_dfx`、`drivers_peripheral_display_4K_support` 开关。
+
+6. 新增 Format 键与错误码
+    -   `interfaces/kits/format.h` 新增 `LAYER_PRIORITY` 键（配合播放器图层优先级设置）；`interfaces/kits/media_errors.h` 新增 `ERR_AUDIO_READ_DATA_TIME_OUT` 错误码。
+
+## 原有功能增强
+
+1. 原有视频流属性结构增强
+    -   原有功能：`StreamAttr` 仅含宽、高、帧率等信息。
+    -   本次增强：`MEDIA_INTERFACE_V1_0` 下新增 `displayWidth`/`displayHeight` 显示尺寸字段。
+
+2. 原有相机检测回调签名增强
+    -   原有功能：`CameraDetectCb`/`CameraResultCb` 使用 `uint32_t` 相机 ID。
+    -   本次增强：`MEDIA_INTERFACE_V1_0` 下改为字符串相机 ID（`const char *`），与相机 HAL 管理器接口保持一致。
+
+3. 原有位置信息结构增强
+    -   原有功能：`PosInfo` 仅含 x、y 坐标。
+    -   本次增强：`MEDIA_INTERFACE_V1_0` 下新增宽、高字段（w/h）。
+
+4. 原有日志宏增强
+    -   原有功能：`MEDIA_*_LOG` 宏按 `OHOS_DEBUG` 条件选择是否携带函数名、文件名与行号。
+    -   本次增强：统一改走 `DECORATOR_LOG`（函数名+行号），级别过滤与输出后端由 `media_log.cpp` 内部处理，宏定义更简洁。
+
+5. 原有编译构建配置增强
+    -   原有功能：`media_common` 仅编译 `format.cpp`、`source.cpp`。
+    -   本次增强：新增 `media_log.cpp`、`media_utils.cpp`；新增 `HI_LOG_ENABLE`/`ENABLE_DFX` 宏定义；非 liteos_m 内核下补充 `hilog_shared` 依赖。
+
+6. 原有开源合规配置增强
+    -   原有功能：`OAT.xml` 用于开源合规扫描配置。
+    -   本次增强：新增 policyitem，登记 HiSilicon 版权声明。
 
 ## 相关仓<a name="section105062051111614"></a>
 
