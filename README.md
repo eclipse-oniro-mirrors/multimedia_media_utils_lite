@@ -11,8 +11,6 @@
 
 This repository defines common information such as media error codes and data types required for audio and video recording and playback.
 
-This component is adapted for the HiSpark AiFly (Hi3403V100) development board. Its main capabilities include:
-
 -   Camera HAL manager interface: under MEDIA_INTERFACE_V1_0, provides the HalCameraManager function-pointer table with GetHalCameraFuncs/GetHalDistributedCameraFuncs, uses string camera IDs, and provides distributed camera management APIs (HalCameraAddCameraDevice/HalCameraRemoveCameraDevice/HalCameraAcquireBuffer/HalCameraShutterBuffer/HalCameraOnSettingsResult/HalCameraNotify, etc.), while keeping the original APIs for the legacy path.
 -   Audio device info model: provides AudioSystemDeviceType (local/virtual microphones and speakers), DeviceConnectStatus and AudioDeviceInfo (with dhId, device name, device type and connection status), offering data structures for audio device management and device-change callbacks.
 -   Media log module: provides MediaLogPrintf/MediaDfxLogPrintf/SetMediaLogLevel/GetMediaLogLevel, with log-level gating (atomic variable, ERROR level by default under NDEBUG), hilog output under HI_LOG_ENABLE, and the DECORATOR_LOG macro wrapper carrying the function name and line number.

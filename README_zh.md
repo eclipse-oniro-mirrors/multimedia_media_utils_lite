@@ -11,8 +11,6 @@
 
 提供媒体错误码等公用信息的定义，以及录制、播放音频和视频所需的数据类型。
 
-本组件针对 HiSpark AiFly（Hi3403V100）开发板完成功能适配，主要能力包括：
-
 -   相机 HAL 管理器接口：在 MEDIA_INTERFACE_V1_0 下提供 HalCameraManager 函数指针表及 GetHalCameraFuncs/GetHalDistributedCameraFuncs 获取接口，相机 ID 采用字符串，并提供分布式相机管理接口（HalCameraAddCameraDevice/HalCameraRemoveCameraDevice/HalCameraAcquireBuffer/HalCameraShutterBuffer/HalCameraOnSettingsResult/HalCameraNotify 等），同时保留原接口供旧版本使用。
 -   音频设备信息模型：提供 AudioSystemDeviceType（本地/虚拟麦克风与扬声器）、DeviceConnectStatus 与 AudioDeviceInfo（含 dhId、设备名、设备类型、连接状态），为音频设备管理与设备变化回调提供数据结构。
 -   媒体日志模块：提供 MediaLogPrintf/MediaDfxLogPrintf/SetMediaLogLevel/GetMediaLogLevel，支持日志级别门控（原子变量控制，NDEBUG 下默认 ERROR 级），HI_LOG_ENABLE 下对接 hilog 输出，并提供带函数名与行号的 DECORATOR_LOG 宏封装。
