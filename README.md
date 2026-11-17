@@ -11,18 +11,12 @@
 
 This repository defines common information such as media error codes and data types required for audio and video recording and playback.
 
--   Camera HAL manager interface: under MEDIA_INTERFACE_V1_0, provides the HalCameraManager function-pointer table with GetHalCameraFuncs/GetHalDistributedCameraFuncs, uses string camera IDs, and provides distributed camera management APIs (HalCameraAddCameraDevice/HalCameraRemoveCameraDevice/HalCameraAcquireBuffer/HalCameraShutterBuffer/HalCameraOnSettingsResult/HalCameraNotify, etc.), while keeping the original APIs for the legacy path.
--   Audio device info model: provides AudioSystemDeviceType (local/virtual microphones and speakers), DeviceConnectStatus and AudioDeviceInfo (with dhId, device name, device type and connection status), offering data structures for audio device management and device-change callbacks.
--   Media log module: provides MediaLogPrintf/MediaDfxLogPrintf/SetMediaLogLevel/GetMediaLogLevel, with log-level gating (atomic variable, ERROR level by default under NDEBUG), hilog output under HI_LOG_ENABLE, and the DECORATOR_LOG macro wrapper carrying the function name and line number.
--   DFX statistics utility: under ENABLE_DFX, provides audio receive-time recording (MediaRecordAudioRecvTime) and sync time-difference printing (MediaPrintSyncTimeDiffUs), with clock retrieval and multiplication overflow protection.
--   Build arguments and configuration items: config.gni provides the enable_distributed_hardware, enable_distributed_dfx and drivers_peripheral_display_4K_support switches.
--   Format key and error code: format.h provides the LAYER_PRIORITY key (for the player layer priority setting), and media_errors.h provides the ERR_AUDIO_READ_DATA_TIME_OUT error code.
--   Video stream attribute structure: StreamAttr provides the displayWidth/displayHeight display-size fields under MEDIA_INTERFACE_V1_0.
--   Camera detect callback signatures: CameraDetectCb/CameraResultCb use string camera IDs (const char *) under MEDIA_INTERFACE_V1_0, consistent with the camera HAL manager interface.
--   Position info structure: PosInfo provides the width and height fields (w/h) under MEDIA_INTERFACE_V1_0.
--   Log macros: the MEDIA_*_LOG macros uniformly go through DECORATOR_LOG (function name + line number), with level filtering and the output backend handled inside media_log.cpp.
--   Build configuration: media_common compiles format.cpp, source.cpp, media_log.cpp and media_utils.cpp, defines the HI_LOG_ENABLE/ENABLE_DFX macros, and adds the hilog_shared dependency for non-liteos_m kernels.
--   Open-source compliance configuration: OAT.xml registers the HiSilicon copyright through a policyitem.
+-   Camera: provides the camera HAL manager function-pointer table and its accessors, uses string camera IDs, and supports distributed camera device management.
+-   Audio: provides the audio device info model (device type, connection status, etc.) and data structures for device management and change callbacks.
+-   Logging: provides the media log APIs with log-level gating and optional hilog output.
+-   DFX: provides statistics utilities such as audio receive-time recording and sync time-difference printing.
+-   Configuration: provides build arguments and feature switches (distributed hardware, distributed DFX, 4K display, etc.) and registers the open-source compliance copyright.
+-   Interfaces: provides the Format key, error code, and extended fields for data structures such as video stream attributes, camera callback signatures, and position info.
 
 Data types
 

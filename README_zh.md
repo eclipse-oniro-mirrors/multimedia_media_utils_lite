@@ -11,18 +11,12 @@
 
 提供媒体错误码等公用信息的定义，以及录制、播放音频和视频所需的数据类型。
 
--   相机 HAL 管理器接口：在 MEDIA_INTERFACE_V1_0 下提供 HalCameraManager 函数指针表及 GetHalCameraFuncs/GetHalDistributedCameraFuncs 获取接口，相机 ID 采用字符串，并提供分布式相机管理接口（HalCameraAddCameraDevice/HalCameraRemoveCameraDevice/HalCameraAcquireBuffer/HalCameraShutterBuffer/HalCameraOnSettingsResult/HalCameraNotify 等），同时保留原接口供旧版本使用。
--   音频设备信息模型：提供 AudioSystemDeviceType（本地/虚拟麦克风与扬声器）、DeviceConnectStatus 与 AudioDeviceInfo（含 dhId、设备名、设备类型、连接状态），为音频设备管理与设备变化回调提供数据结构。
--   媒体日志模块：提供 MediaLogPrintf/MediaDfxLogPrintf/SetMediaLogLevel/GetMediaLogLevel，支持日志级别门控（原子变量控制，NDEBUG 下默认 ERROR 级），HI_LOG_ENABLE 下对接 hilog 输出，并提供带函数名与行号的 DECORATOR_LOG 宏封装。
--   DFX 统计工具：ENABLE_DFX 下提供音频接收时间记录（MediaRecordAudioRecvTime）与同步时差打印（MediaPrintSyncTimeDiffUs），含时钟获取与乘法溢出保护。
--   构建参数与配置项：config.gni 提供 enable_distributed_hardware、enable_distributed_dfx、drivers_peripheral_display_4K_support 开关。
--   Format 键与错误码：format.h 提供 LAYER_PRIORITY 键（配合播放器图层优先级设置），media_errors.h 提供 ERR_AUDIO_READ_DATA_TIME_OUT 错误码。
--   视频流属性结构：StreamAttr 在 MEDIA_INTERFACE_V1_0 下提供 displayWidth/displayHeight 显示尺寸字段。
--   相机检测回调签名：CameraDetectCb/CameraResultCb 在 MEDIA_INTERFACE_V1_0 下采用字符串相机 ID（const char *），与相机 HAL 管理器接口保持一致。
--   位置信息结构：PosInfo 在 MEDIA_INTERFACE_V1_0 下提供宽、高字段（w/h）。
--   日志宏：MEDIA_*_LOG 宏统一走 DECORATOR_LOG（函数名+行号），级别过滤与输出后端由 media_log.cpp 内部处理。
--   编译构建配置：media_common 编译 format.cpp、source.cpp、media_log.cpp、media_utils.cpp，提供 HI_LOG_ENABLE/ENABLE_DFX 宏定义，非 liteos_m 内核下补充 hilog_shared 依赖。
--   开源合规配置：OAT.xml 通过 policyitem 登记 HiSilicon 版权声明。
+-   相机：提供相机 HAL 管理器函数指针表及获取接口，相机 ID 采用字符串，并支持分布式相机设备管理。
+-   音频：提供音频设备信息模型（设备类型、连接状态等），为设备管理与变化回调提供数据结构。
+-   日志：提供媒体日志接口，支持日志级别门控，并可对接 hilog 输出。
+-   DFX：提供音频接收时间记录与同步时差打印等统计工具。
+-   配置：提供构建参数与特性开关（分布式硬件、分布式 DFX、4K 显示等），并登记开源合规版权声明。
+-   接口：提供 Format 键、错误码，以及视频流属性、相机回调签名、位置信息等数据结构的扩展字段。
 
 数据类型：
 
